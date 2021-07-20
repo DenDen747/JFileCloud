@@ -14,6 +14,10 @@ public class Logger {
     public enum Level {
         INFO,
         WARNING,
-        ERROR
+        ERROR,
+        REQUEST,
+        RESPONSE,
+        REDACTED_REQUEST,
+        REDACTED_RESPONSE
     }
 }
