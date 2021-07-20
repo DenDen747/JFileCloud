@@ -36,7 +36,7 @@ public class Server {
                     if(!newFile1) {
                         throw new InitializeException();
                     }
-                    config.setProperty("port", "7900").setProperty("maxSpace", "10737418240").setProperty("quitMessage", "QUIT-" + new Random().nextInt(9999));
+                    config.setProperty("port", "7900").setProperty("maxSpace", "10737418240").setProperty("quitMessage", "QUIT-" + new Random().nextInt(9999)).setProperty("redactions", "true");
                     File profiles = new File(".server/profiles");
                     boolean mkdir2 = profiles.mkdirs();
                     if(!mkdir2) {
@@ -50,6 +50,11 @@ public class Server {
                         }
                         PropertiesFile admin = new PropertiesFile(".server/profiles/admin.properties");
                         admin.setProperty("password", "admin");
+                        File adminFolder = new File(".server/files/admin");
+                        boolean mkdir3 = adminFolder.mkdirs();
+                        if(!mkdir3) {
+                            throw new InitializeException();
+                        }
                         logger.log(Logger.Level.INFO, "Initialized server files. Change the files to your liking, then restart the server. All files are located in a hidden folder called \".server\"");
                         System.exit(0);
                     }
