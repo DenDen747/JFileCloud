@@ -1,6 +1,7 @@
 package com.denesgarda.JFileCloud;
 
 import com.denesgarda.JFileCloud.err.InitializeException;
+import com.denesgarda.JFileCloud.util.Logger;
 import com.denesgarda.Prop4j.data.PropertiesFile;
 
 import java.io.File;
@@ -11,13 +12,18 @@ public class Server {
     public ServerSocket serverSocket = null;
     public Socket socket = null;
 
+    private Logger logger = new Logger();
+
     public Server() {
 
     }
 
     public void start() {
+        logger.log(Logger.Level.INFO, "Starting server...");
         File server = new File(".server");
         if(!server.exists()) {
+            logger.log(Logger.Level.WARNING, "Necessary server files not found.");
+            logger.log(Logger.Level.INFO, "Creating new files...");
             boolean mkdir1 = server.mkdirs();
             if(!mkdir1) {
                 throw new InitializeException();
@@ -44,7 +50,7 @@ public class Server {
                         }
                         PropertiesFile admin = new PropertiesFile(".server/profiles/admin.properties");
                         admin.setProperty("password", "admin");
-                        System.out.println("Initialized server files. Change the files to your liking, then restart the server. All files are located in a hidden folder called \".server\"");
+                        logger.log(Logger.Level.INFO, "Initialized server files. Change the files to your liking, then restart the server. All files are located in a hidden folder called \".server\"");
                         System.exit(0);
                     }
                     catch(Exception e) {
@@ -59,9 +65,10 @@ public class Server {
         PropertiesFile config = new PropertiesFile(".server/config.properties");
         try {
             serverSocket = new ServerSocket(Integer.parseInt(config.getProperty("port")));
-            System.out.println("Server started.");
+            logger.log(Logger.Level.INFO, "Server started.");
             while(true) {
                 socket = serverSocket.accept();
+                logger.log(Logger.Level.INFO, "Client connected");
                 new EchoThread(socket).start();
             }
         }
