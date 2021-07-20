@@ -10,7 +10,7 @@ public class Main {
         DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 
-        dataOutputStream.writeUTF("Hello there");
+        dataOutputStream.writeUTF("QUIT-7833");
         String message = dataInputStream.readUTF();
         System.out.println(message);
 

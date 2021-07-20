@@ -7,11 +7,13 @@ import com.denesgarda.Prop4j.data.PropertiesFile;
 import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
 
 public class Server {
     public ServerSocket serverSocket = null;
     public Socket socket = null;
     public static Logger logger = new Logger();
+    public static PropertiesFile config = new PropertiesFile(".server/config.properties");
 
     public Server() {
 
@@ -34,8 +36,7 @@ public class Server {
                     if(!newFile1) {
                         throw new InitializeException();
                     }
-                    PropertiesFile config = new PropertiesFile(".server/config.properties");
-                    config.setProperty("port", "7900").setProperty("maxSpace", "10737418240");
+                    config.setProperty("port", "7900").setProperty("maxSpace", "10737418240").setProperty("quitMessage", "QUIT-" + new Random().nextInt(9999));
                     File profiles = new File(".server/profiles");
                     boolean mkdir2 = profiles.mkdirs();
                     if(!mkdir2) {

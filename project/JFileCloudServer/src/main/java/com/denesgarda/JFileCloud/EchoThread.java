@@ -20,7 +20,12 @@ public class EchoThread extends Thread {
 
             String message = dataInputStream.readUTF();
             Server.logger.log(Logger.Level.INFO, "Received message: " + message);
-            dataOutputStream.writeUTF("Hello!");
+            if(message.equals(Server.config.getProperty("quitMessage"))) {
+                Server.logger.log(Logger.Level.INFO, "Quit command received from client.");
+                Server.logger.log(Logger.Level.INFO, "Terminating server...");
+                System.exit(0);
+            }
+            //dataOutputStream.writeUTF("Hello!");
 
             dataInputStream.close();
             dataOutputStream.close();
