@@ -4,8 +4,13 @@ import com.denesgarda.JFileCloud.err.InitializeException;
 import com.denesgarda.Prop4j.data.PropertiesFile;
 
 import java.io.File;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
+    public ServerSocket serverSocket = null;
+    public Socket socket = null;
+
     public Server() {
 
     }
@@ -50,6 +55,18 @@ public class Server {
                     throw new InitializeException();
                 }
             }
+        }
+        PropertiesFile config = new PropertiesFile(".server/config.properties");
+        try {
+            serverSocket = new ServerSocket(Integer.parseInt(config.getProperty("port")));
+            System.out.println("Server started.");
+            while(true) {
+                socket = serverSocket.accept();
+                new EchoThread(socket).start();
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
         }
     }
 }
