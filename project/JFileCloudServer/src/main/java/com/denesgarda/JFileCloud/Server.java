@@ -11,8 +11,7 @@ import java.net.Socket;
 public class Server {
     public ServerSocket serverSocket = null;
     public Socket socket = null;
-
-    private Logger logger = new Logger();
+    public static Logger logger = new Logger();
 
     public Server() {
 
